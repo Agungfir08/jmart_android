@@ -3,6 +3,7 @@ package com.AgungJmartAK.jmart_android;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,5 +11,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView userMain = (TextView) findViewById(R.id.hello_user_main);
+        userMain.setText("Hello" + LoginActivity.getLoggedAccount().name + "!");
     }
 }

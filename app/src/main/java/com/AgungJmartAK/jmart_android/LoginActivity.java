@@ -13,6 +13,7 @@ import com.AgungJmartAK.jmart_android.model.Account;
 import com.AgungJmartAK.jmart_android.request.LoginRequest;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
@@ -44,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             if(object != null){
-                                Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT);
+                                Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_LONG);
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 loggedAccount = gson.fromJson(object.toString(), Account.class);
                                 startActivity(intent);
@@ -52,8 +53,15 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         catch (JSONException e){
                             e.printStackTrace();
-                            Toast.makeText(LoginActivity.this, "Login Error!", Toast.LENGTH_SHORT);
+                            Toast.makeText(LoginActivity.this, "Login Error!", Toast.LENGTH_LONG);
                         }
+                    }
+                };
+
+                Response.ErrorListener errorListener = new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(LoginActivity.this, "Login Error!", Toast.LENGTH_LONG);
                     }
                 };
                 LoginRequest loginRequest = new LoginRequest(textemail.getText().toString(), textpassword.getText().toString(), listener, null);
