@@ -2,24 +2,29 @@ package com.AgungJmartAK.jmart_android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.AgungJmartAK.jmart_android.model.Account;
 import com.AgungJmartAK.jmart_android.request.LoginRequest;
+import com.AgungJmartAK.jmart_android.request.RequestFactory;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * This is class for user login activity.
+ *
+ * @author Agung Firmansyah
+ */
 public class LoginActivity extends AppCompatActivity {
     private static final Gson gson = new Gson();
     private static Account loggedAccount = null;
@@ -29,45 +34,73 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        SessionManager sessionManager = new SessionManager(LoginActivity.this);
+        int accountId = sessionManager.getSession();
+
+        if(accountId!=-1){
+            Response.Listener<String> listener = response -> {
+                try{
+                    JSONObject object = new JSONObject(response);
+                    if(object!=null) {
+                        loggedAccount = gson.fromJson(object.toString(),Account.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }catch (JSONException e){
+                    Toast.makeText(LoginActivity.this, "login is failed.",Toast.LENGTH_SHORT).show();
+                }
+            };
+
+            RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+            queue.add(RequestFactory.getById("account",accountId,listener,null));
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        EditText etPassword = findViewById(R.id.login_password);
+        EditText etEmail = findViewById(R.id.login_email);
+        Button loginBtn = findViewById(R.id.login_button);
+        TextView reghere = findViewById(R.id.text_register_now);
 
-        EditText textemail = findViewById(R.id.login_email);
-        EditText textpassword = findViewById(R.id.login_password);
-        Button buttonlogin = findViewById(R.id.login_button);
-        buttonlogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Response.Listener<String> listener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject object = new JSONObject(response);
-                            if(object != null){
-                                Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_LONG);
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                loggedAccount = gson.fromJson(object.toString(), Account.class);
-                                startActivity(intent);
-                            }
-                        }
-                        catch (JSONException e){
-                            e.printStackTrace();
-                            Toast.makeText(LoginActivity.this, "Login Error!", Toast.LENGTH_LONG);
-                        }
-                    }
-                };
+        reghere.setOnClickListener(
+                e->{
+                    startActivity(new Intent(this,RegisterActivity.class));
+                }
+        );
 
-                Response.ErrorListener errorListener = new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(LoginActivity.this, "Login Error!", Toast.LENGTH_LONG);
+        loginBtn.setOnClickListener(view -> {
+            String email = etEmail.getText().toString();
+            String pass = etPassword.getText().toString();
+
+            LoginRequest loginRequest = new LoginRequest(email, pass, response -> {
+                try{
+                    JSONObject object = new JSONObject(response);
+                    if(object!=null) {
+                        Toast.makeText(LoginActivity.this, "login success", Toast.LENGTH_SHORT).show();
+                        loggedAccount = gson.fromJson(object.toString(),Account.class);
+                        SessionManager sessionManager = new SessionManager(LoginActivity.this);
+                        sessionManager.saveSession(loggedAccount);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
-                };
-                LoginRequest loginRequest = new LoginRequest(textemail.getText().toString(), textpassword.getText().toString(), listener, null);
-                RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-                requestQueue.add(loginRequest);
-            }
+                }catch (JSONException e){
+                    Toast.makeText(LoginActivity.this, "login failed.",Toast.LENGTH_SHORT).show();
+                }
+
+            },
+                    error -> Toast.makeText(LoginActivity.this, "Error.",Toast.LENGTH_SHORT).show());
+            RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+            queue.add(loginRequest);
+
         });
+
     }
+
 }

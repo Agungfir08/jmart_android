@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvProdCat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FilterFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvProdcat"
+            android:layout_width="129dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="20dp"
+            android:text="Product Category"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/control_filter_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="25dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_baseline_search">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:hint=" Search"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contol_filter_lowestprice"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="@+id/control_filter_search"
+            app:layout_constraintTop_toBottomOf="@+id/control_filter_search"
+            app:startIconDrawable="@drawable/ic_idr">
+
+            <EditText
+                android:id="@+id/etLowestPrice"
+                android:layout_width="125dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:hint=" Lowest Price"
+                android:inputType="numberDecimal"
+                android:textSize="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/control_filter_highestprice"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/control_filter_search"
+            app:layout_constraintTop_toBottomOf="@+id/control_filter_search"
+            app:startIconDrawable="@drawable/ic_idr">
+
+            <EditText
+                android:id="@+id/etHIghestPrice"
+                android:layout_width="125dp"
+                android:layout_height="50dp"
+                android:hint=" Highest Price"
+                android:inputType="numberDecimal"
+                android:textSize="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/tvTo"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:text="to"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/control_filter_highestprice"
+            app:layout_constraintEnd_toStartOf="@+id/control_filter_highestprice"
+            app:layout_constraintStart_toEndOf="@+id/contol_filter_lowestprice"
+            app:layout_constraintTop_toTopOf="@+id/contol_filter_lowestprice" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="129dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="20dp"
+            android:text="Product condition"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/contol_filter_lowestprice"
+            app:layout_constraintTop_toBottomOf="@+id/contol_filter_lowestprice" />
+
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="130dp"
+            android:layout_height="31dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvProdcat"
+            app:layout_constraintEnd_toEndOf="@+id/radioGroup2"
+            app:layout_constraintTop_toTopOf="@+id/tvProdcat" />
+
+        <Button
+            android:id="@+id/applyBtn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_button"
+            android:text="apply"
+            android:layout_marginTop="230dp"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProdcat" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="@+id/control_filter_highestprice"
+            app:layout_constraintTop_toTopOf="@+id/textView5">
+
+            <RadioButton
+                android:id="@+id/newCondition2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New" />
+
+            <RadioButton
+                android:id="@+id/usedCondition2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Used" />
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

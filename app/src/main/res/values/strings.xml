@@ -1,3 +1,39 @@
 <resources>
     <string name="app_name">Agung Application</string>
+
+    <string-array name="shipmentPlan">
+        <item>INSTANT</item>
+        <item>SAME DAY</item>
+        <item>NEXT DAY</item>
+        <item>REGULER</item>
+        <item>KARGO</item>
+    </string-array>
+
+    <string-array name="Category">
+        <item>BOOK</item>
+        <item>KITCHEN</item>
+        <item>ELECTRONIC</item>
+        <item>FASHION</item>
+        <item>GAMING</item>
+        <item>GADGET</item>
+        <item>MOTHERCARE</item>
+        <item>COSMETICS</item>
+        <item>HEALTHCARE</item>
+        <item>FURNITURE</item>
+        <item>JEWELRY</item>
+        <item>TOYS</item>
+        <item>FNB</item>
+        <item>STATIONERY</item>
+        <item>SPORTS</item>
+        <item>AUTOMOTIVE</item>
+        <item>PETCARE</item>
+        <item>ART_CRAFT</item>
+        <item>CARPENTRY</item>
+        <item>MISCELLANEOUS</item>
+        <item>PROPERTY</item>
+        <item>TRAVEL</item>
+        <item>WEDDING</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
